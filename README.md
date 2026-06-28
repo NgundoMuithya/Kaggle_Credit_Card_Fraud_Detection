@@ -2,7 +2,7 @@
 
 ## Instructions to clone
 
-Ensure, after cloning the repository, to run the following command in the project folder (**.../Kaggle_Credit_Card_Fraud_Detection/**):
+Ensure, after cloning the repository, to run the following command in the terminal while in the project folder:
 
 ```bash
 git lfs pull
