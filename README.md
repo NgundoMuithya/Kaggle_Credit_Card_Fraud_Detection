@@ -28,7 +28,7 @@ This downloads the credit card data into your local machine.
 1. Data Understanding
 </h2>
 
-The dataset used ([here](./creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in Spetember 2013.
+The dataset used ([here](./Data/creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in Spetember 2013.
 
 The dataset is highly imbalanced with the positive class (frauds) accounting for only **0.172%** of the transactions.
 
