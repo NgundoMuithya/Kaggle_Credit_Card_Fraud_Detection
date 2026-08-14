@@ -167,7 +167,9 @@ The unbalanced logistic model had a higher number of **false negatives** (missed
 
 The balanced model had fewer false positives (false alarms) compared to the SMOTE model while having the same number of true positives and false negatives. In other words, even though the SMOTE model had a higher number of false alarms, this did not translate to more captured events (true positives) when compared to the balanced model.
 
-The balanced model is therefore the **best** logistic model as it captures the **most fraudulent events** with as **few false alarms** as possible.
+#### v) Conclusion
+
+The balanced model is the **best** logistic model as it captures the **most fraudulent events** with as **few false alarms** as possible.
 
 <img src='./Images/ROC_curves_for_logreg_models.png' />
 
@@ -225,6 +227,8 @@ The balanced model has a higher precision than the SMOTE model (**0.9062**) with
 We can see that, as said earlier, the unbalanced model has a low number of false positives but a high number of false negatives. Since missed events (false negatives) are more costly than false alarms, the unbalanced model is **NOT** the model to go with.
 
 As we saw earlier, the balanced model has the same number of false negatives as the SMOTE model with fewer false positives (**12** vs **29**). It offers similar capability of catching fraudulent events as the SMOTE model but with less false alarms.
+
+#### v) Conclusion
 
 The confusion matrices confirm that the **balanced model** is the best model for our purposes.
 
@@ -294,6 +298,8 @@ The confusion matrix reveals that:
 - the **SMOTE** model has the **least** number of **false negatives** of the three models. It also has the highest number of true positives. This is what we want in the best random forest model.
 
 - as suspected earlier, the models all have a higher number of false negatives compared to false positives with the **SMOTE** model having the lowest difference. A higher number of false positives in exchange for lower false negatives, as is the case in the **SMOTE** model, is tolerable since a missed event(false negative) is far more costly compared to a false alarm(false positive)
+
+#### v) Conclusion
 
 Looking at the ROC-AUC curves:
 
