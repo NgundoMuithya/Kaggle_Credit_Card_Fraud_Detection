@@ -234,9 +234,9 @@ Let us take a look at their confusion matrices.
 
 ![Conf matrices for xgb models](./Images/xgboost_conf_matrices.png)
 
-We can see that, as said earlier, the unbalanced model has a low number of false positives but a high number of false negatives. Since missed events (false negatives) are more costly than false alarms, the unbalanced model is **NOT** the model to go with.
+We can see that, as said earlier, the unbalanced model has a low number of false positives but a (relatively) high number of false negatives. Since missed events (false negatives) are more costly than false alarms, the unbalanced model is **NOT** the model to go with.
 
-As we saw earlier, the balanced model has a (slightly) lower number of false negatives as the SMOTE model with more true positives (**127** vs **126**). It offers a slightly better capability of catching fraudulent events compared to the SMOTE model with a minimal increase in false alarms.
+As we saw earlier, the balanced model has a (slightly) lower number of false negatives as the SMOTE model (**15** vs **16**) with more true positives (**127** vs **126**). It offers a slightly better capability of catching fraudulent events compared to the SMOTE model with a minimal increase in false alarms.
 
 Let us take a look at the **PR-AUC** curves for the models.
 
@@ -290,13 +290,13 @@ c) Random Forest
 
 #### iii) SMOTE
 
-|              | precision |   recall |  f1-score |  support |
-| :----------- | --------: | -------: | --------: | -------: |
-| 0            |  0.999681 | 0.959389 |  0.979121 |    84976 |
-| 1            | 0.0325203 | 0.816901 | 0.0625506 |      142 |
-| accuracy     |  0.959151 | 0.959151 |  0.959151 | 0.959151 |
-| macro avg    |  0.516101 | 0.888145 |  0.520836 |    85118 |
-| weighted avg |  0.998068 | 0.959151 |  0.977591 |    85118 |
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999671 |   0.9998 | 0.999735 |    84976 |
+| 1            |  0.870229 | 0.802817 | 0.835165 |      142 |
+| accuracy     |  0.999471 | 0.999471 | 0.999471 | 0.999471 |
+| macro avg    |   0.93495 | 0.901308 |  0.91745 |    85118 |
+| weighted avg |  0.999455 | 0.999471 | 0.999461 |    85118 |
 
 #### iv) Evaluation
 
@@ -304,13 +304,11 @@ The classification reports reveal that:
 
 - all the models perform well on the negative(0) class (as expected since the number of training examples was high) with the balanced model performing best.
 
-- the models have decent f1 and precision scores compared to the other model families evaluated.
+- the models have decent f1 and precision scores on the test set compared to the other model families evaluated.
 
 - the model with the highest recall on the positive class is the **SMOTE** model with a recall of **0.8169** followed by the unbalanced model (0.7394) and then the balanced model (0.7324)
 
-- all the models have lower recall compared to precision except the **SMOTE** model. This could be an indication that the models are more susceptible to false negatives(missed events) than false positives(false alarms) with the **SMOTE** model being the least susceptible.
-
-All of these observations point to the **SMOTE** model as being the **best random forest model**.
+- all the models have lower recall compared to precision. This could be an indication that the models are more susceptible to false negatives(missed events) than false positives(false alarms) with the **SMOTE** model being the least susceptible.
 
 Let us look, as before, at the confusion matrix to confirm this.
 
@@ -318,11 +316,11 @@ Let us look, as before, at the confusion matrix to confirm this.
 
 The confusion matrices reveal that:
 
-- all the models have very low false alarms except the SMOTE model. This does come at the cost, however, of more false negatives which is not ideal.
+- all the models have very low false alarms except the SMOTE model which has **17**. This does come at the cost, however, of more false negatives which is not ideal.
 
-- the **SMOTE** model has the **least** number of **false negatives** of the three models. It also has the highest number of true positives. This is what we want in the best random forest model.
+- the **SMOTE** model has the **least** number of **false negatives(28)** of the three models. It also has the highest number of true positives. This is what we want in the best random forest model.
 
-- as suspected earlier, the models all have a higher number of false negatives compared to false positives (hence the higher precision compared to recall) except the **SMOTE** model. A higher number of false positives in exchange for lower false negatives, as is the case in the **SMOTE** model, is tolerable since a missed event(false negative) is far more costly compared to a false alarm(false positive).
+- as suspected earlier, the models all have a higher number of false negatives compared to false positives (hence the higher precision compared to recall). A higher number of false positives in exchange for lower false negatives, as is the case in the **SMOTE** model, is tolerable since a missed event(false negative) is far more costly compared to a false alarm(false positive).
 
 Let us finally have a look at the **PR-AUC curves** for the models.
 
@@ -330,15 +328,11 @@ Let us finally have a look at the **PR-AUC curves** for the models.
 
 Looking at the **PR-AUC curves**:
 
-- the unbalanced model and balanced models perform well on both the train and test set with the unbalanced model edging the balanced model slightly on the test set. The SMOTE model is a distant third.
+- all the models perform well on both the train and test set with the unbalanced model edging the SMOTE model slightly on the test set.
 
-- the models might be severely overfit as they all show significant perfomance drop from when using training data to when using testing data. The unbalanced and balanced models show the largest performance drops of almost **20%** compared to SMOTE's **~11%**.
+- the models might be severely overfit as they all show significant perfomance drops of almost **20%** from when using training data to when using testing data.
 
-The unbalanced and balanced models are good at predicting the positive class with as few false alarms as possible. At the default decision threshold of 0.5, however, they do **not** correctly predict most of the fraudulent events (on the test data); the SMOTE model, with its highest recall (by a significant margin), is the one that does so.
-
-It seems we are faced with a familiar dilemna (visit the xgboost section): _Do we go with the model that captures events reasonably well with very few false alarms (the unbalanced model), or do we go with the model that captures almost all of the fraudulent events but at the cost of more false alarms (the SMOTE model)?_
-
-The facts that a false alarm is less costly compared to a missed event, that 0.5 is the decision threshold most commonly used, and that the SMOTE model still performs well on the negative class (as shown by the confusion matrices) make the **SMOTE** model the best model for our purposes. It will capture a lot more of the events but at the cost of more false alarms.
+All the models perform similarly well at predicting the positive class with as few false alarms as possible. However, the SMOTE model does the best, at the default decision threshold of 0.5, of predicting most of the fraudulent events as evidenced by the confusion matrices plot. This,combined with its good PR-AUC score, make it the best candidate for **best random forest model**.
 
 #### v) Conclusion
 
