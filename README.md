@@ -80,13 +80,13 @@ On average, fraudulent transactions tend to be of higher amounts than genuine on
 
 <img src='./Images/Dist_of_time_btwn_transactions.png' />
 
-This plot shows peaks at whole number values for the gap between transactions. This is because the time values in provided in the dataset were all integers, so their gaps would also be integers and the probability of finding decimal gaps is effectively 0.
+This plot shows peaks at whole number values for the gap between transactions. This is because the time values provided in the dataset were all integers, so their gaps would also be integers, and the probability of finding decimal gaps is effectively 0.
 
 The most frequent gap was **0 seconds**.
 
-> **NB**: This is not to mean that the transactions occurred at the same time. It just suggests that the level of granularity chosen to record the time (seconds) was not enough to show a clear separation between transactions. If the transaction times were recorded in milliseconds, for example, they might show that the transactions occurred at different times.
+> **NB**: This is not to mean that the transactions occurred at the same time. It is not possible for any system to handle two transactions at exactly the same time. It just suggests that the level of granularity chosen to record the time (seconds) was not enough to show a clear separation between transactions. If the transaction times were recorded in milliseconds, for example, they might show that the transactions occurred at different times.
 
-Larger gaps become less and less infrequent. Those larger gaps indicate periods when transaction traffic was low. This could be for any number of reasons e.g. it could have been at night when people were asleep or the system(s) experienced some form of downtime.
+Larger gaps become less and less frequent. Those larger gaps indicate periods when transaction traffic was low. This could be for any number of reasons e.g. it could have been at night when people were asleep or the system(s) experienced some form of downtime.
 
 <img src='./Images/Avg_time_btwn_transactions_per_class.png' />
 
@@ -108,9 +108,9 @@ d) **Decision Tree** - A single decision tree
 
 e) **Neural Network** - A collection of artificial neurons connected by weighted edges
 
-**Recall** was prioritised as false negatives (false alarms) are costly and should be minimized.
+**Recall** was prioritised as false negatives (missed events) are costly and should be minimized.
 
-Two strategies were employed to deal with the class imbalance present in the dataset: **SMOTE** and **Using balanced class weight** with the best model using either of the two strategies being selected for the final evaluation to be done across the model families.
+Two strategies were employed to deal with the class imbalance present in the dataset: **SMOTE** and **Using balanced class weight** with the best model using either of the two strategies being selected for the final evaluation across the model families.
 
 Here are the results:
 
@@ -124,56 +124,67 @@ a) Logistic Regression
 | :----------- | --------: | -------: | -------: | ------: |
 | 0            |  0.999623 | 0.999635 | 0.999629 |   84976 |
 | 1            |  0.780142 | 0.774648 | 0.777385 |     142 |
+| accuracy     |   0.99926 |  0.99926 |  0.99926 | 0.99926 |
 | macro avg    |  0.889883 | 0.887142 | 0.888507 |   85118 |
 | weighted avg |  0.999257 |  0.99926 | 0.999259 |   85118 |
 
-accuracy: 0.99926
+#### ii) Balanced
 
-#### ii) SMOTE
+|              | precision |   recall |  f1-score |  support |
+| :----------- | --------: | -------: | --------: | -------: |
+| 0            |  0.999945 | 0.858607 |  0.923902 |    84976 |
+| 1            | 0.0113552 | 0.971831 | 0.0224481 |      142 |
+| accuracy     |  0.858796 | 0.858796 |  0.858796 | 0.858796 |
+| macro avg    |   0.50565 | 0.915219 |  0.473175 |    85118 |
+| weighted avg |  0.998296 | 0.858796 |  0.922398 |    85118 |
 
-|              | precision |   recall | f1-score | support |
-| :----------- | --------: | -------: | -------: | ------: |
-| 0            |  0.999831 |  0.97344 | 0.986459 |   84976 |
-| 1            | 0.0536688 | 0.901408 | 0.101306 |     142 |
-| macro avg    |   0.52675 | 0.937424 | 0.543882 |   85118 |
-| weighted avg |  0.998252 | 0.973319 | 0.984982 |   85118 |
+#### iii) SMOTE
 
-accuracy: 0.973319
-
-#### iii) Balanced
-
-|              | precision |   recall | f1-score | support |
-| :----------- | --------: | -------: | -------: | ------: |
-| 0            |  0.999831 | 0.977123 | 0.988347 |   84976 |
-| 1            | 0.0617761 | 0.901408 | 0.115628 |     142 |
-| macro avg    |  0.530804 | 0.939266 | 0.551987 |   85118 |
-| weighted avg |  0.998266 | 0.976997 | 0.986891 |   85118 |
-
-accuracy: 0.976997
+|              | precision |   recall |  f1-score | support |
+| :----------- | --------: | -------: | --------: | ------: |
+| 0            |  0.999897 | 0.912458 |  0.954178 |   84976 |
+| 1            | 0.0176944 | 0.943662 | 0.0347375 |     142 |
+| accuracy     |   0.91251 |  0.91251 |   0.91251 | 0.91251 |
+| macro avg    |  0.508796 |  0.92806 |  0.494458 |   85118 |
+| weighted avg |  0.998258 |  0.91251 |  0.952644 |   85118 |
 
 #### iv) Evaluation
 
-All of the models are very good at predicting genuine transactions, with extremely high precision, recall and f1-scores on the negative class (0).
+All of the models are very good at predicting genuine transactions, with extremely high precision, recall and f1-scores on the negative class (0). The unbalanced model is the best at predicting the negative class.
 
-However, the balanced and SMOTE models show poor precision scores on the positive class (which contributes to their poor f1-score as well) despite having very high recall on the same class. As stated earlier, this is a sign that the models have a high number of **false positives**. In the context of our application, this means the models flag a high number of genuine transactions as fraudulent.
+However, the balanced and SMOTE models show poor precision scores on the positive class (which contributes to their poor f1-score as well) despite having very high recall on the same class. As stated earlier, this is a sign that the models have a high number of **false positives**. In the context of our application, this means the models flag a high number of genuine transactions as fraudulent (false alarms).
 
 The models having a higher recall, however, than the unbalanced model means they capture more of the fraudulent events at the expense of more false alarms.
 
-This is something we are willing to tolerate as a false alarm is more manageable compared to a missed event.
+This is something we are willing to tolerate as a false alarm is less costly compared to a missed event.
 
-<img src='./Images/Conf_matrices_for_logreg_models.png' />
+Let us look at the confusion matrices for the models to get a clearer picture of their performances.
 
-The unbalanced logistic model had a higher number of **false negatives** (missed events), hence low recall, compared to the SMOTE and balanced models. This is the metric we care about! A good model should be able to detect as many of the positive events as possible; that means have as **few false negatives** as possible.
+<img src='./Images/logistic_conf_matrices.png' />
 
-The balanced model had fewer false positives (false alarms) compared to the SMOTE model while having the same number of true positives and false negatives. In other words, even though the SMOTE model had a higher number of false alarms, this did not translate to more captured events (true positives) when compared to the balanced model.
+The unbalanced logistic model had a higher number of **false negatives** (missed events) compared to the SMOTE and balanced models. This is the metric we care about! A good model should be able to detect as many of the positive events as possible; that means have as **few false negatives** as possible. The unbalanced logistic model, therefore, **cannot** be the best logistic model.
+
+The balanced model had more false positives (false alarms) compared to the SMOTE model while having a higher number of true positives and less false negatives. The balanced model captures (slightly) more of the fraudulent events but at the cost of (significantly) more false alarms. As stated earlier, this is something we are willing to tolerate as false alarms are less costly compared to missed events.
+
+Ideally, of course, we would like to have a model that captures the **highest number of fraudulent events** with as **few false alarms** as possible. If this is not possible, however, we will go with the model that captures the most fraudulent events.
+
+Let us take a look at the **PR-AUC** curves for the models on both the train and test sets. These will help us assess which of the models captures the highest number fraudulent events with as few false alarms (false positives) as possible.
+
+<img src='./Images/logistic_PR-AUC.png' />
+
+The PR-AUC curves tell us something interesting:
+
+- all the models have curves that are significantly far away from the horizontal threshold (the grey dashed line near the bottom). Curves that dance around that line indicate models that are simply predicting positives according to the probability distribution of the positive class in the training data: a naive (underfitted) model.
+
+- the performance of the model's drops slightly from when using the training data and when using the testing data. This is an indication that the models might be slightly overfitted.
+
+- the model with the highest average precision score across different decision thresholds is the **balanced** model. This means that, across different decision thresholds, the balanced model raises the fewest false alarms
+
+The **balanced** model has the highest **average precision score** on the test set of **0.6735**. This, combined with its high recall, make it the **best** model for our purposes since this means that it captures the **highest number of events** with the **fewest false alarms** of the 3 models evaluated.
 
 #### v) Conclusion
 
-The balanced model is the **best** logistic model as it captures the **most fraudulent events** with as **few false alarms** as possible.
-
-<img src='./Images/ROC_curves_for_logreg_models.png' />
-
-The **balanced** model has the highest **AUC** score of **0.98** further reinforcing our conclusion.
+The **balanced logistic model** is the **best logistic model** and it is the model we shall use as our baseline moving forward.
 
 <h3 align='center'>
 b) XGBoost
