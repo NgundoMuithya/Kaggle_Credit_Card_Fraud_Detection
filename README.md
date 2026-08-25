@@ -371,3 +371,29 @@ d) Decision Tree
 | accuracy     |  0.959151 | 0.959151 |  0.959151 | 0.959151 |
 | macro avg    |  0.516101 | 0.888145 |  0.520836 |    85118 |
 | weighted avg |  0.998068 | 0.959151 |  0.977591 |    85118 |
+
+#### iv) Evaluation
+
+The classification reports reveal that:
+
+- all the models perform well on the negative class with the unbalanced model performing the best. This is to be expected as the unbalanced model does nothing to try to make sure it predicts the positive class well and is instead heavily biased towards predicting the negative class well.
+
+- the **unbalanced** model has the **highest precision** but the **lowest recall** on the positive class.
+
+- the **SMOTE** model has the **highest recall** but the **lowest precision** on the positive class.
+
+Since we are prioritizing recall, the **SMOTE** model is showing the best performance of the three.
+
+Let us take a look at the confusion matrices for the decision trees:
+
+<img src='./Images/decision_tree_conf_matrices.png'
+
+The confusion matrices reveal that:
+
+- the **unbalanced model** has the **fewest false positives** of the three models; hence the high precision score it had. It, however, has the **highest number of false negatives** hence why it has the **lowest recall score**.
+
+- the **SMOTE** model has the **highest number of false positives (3451)** with the **lowest number of false negatives (26)**
+
+We are prioritizing capturing as many of the fraudulent cases as possible even at the cost of high false alarms. The **SMOTE model** looks like the best model to go with thus far.
+
+Let us look at the **PR-AUC** curves for the models:
