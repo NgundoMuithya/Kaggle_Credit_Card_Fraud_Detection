@@ -312,7 +312,7 @@ The classification reports reveal that:
 
 Let us look, as before, at the confusion matrix to confirm this.
 
-![Conf matrices for rf models](./Images/random%20forest_conf_matrices.png)
+![Conf matrices for rf models](./Images/random_forest_conf_matrices.png)
 
 The confusion matrices reveal that:
 
@@ -324,7 +324,7 @@ The confusion matrices reveal that:
 
 Let us finally have a look at the **PR-AUC curves** for the models.
 
-![PR-AUC curves for rf models](./Images/random%20forest_PR-AUC.png)
+![PR-AUC curves for rf models](./Images/random_forest_PR-AUC.png)
 
 Looking at the **PR-AUC curves**:
 
