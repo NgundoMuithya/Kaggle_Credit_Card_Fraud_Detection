@@ -407,3 +407,7 @@ The PR-AUC curves reveal that:
 - the **SMOTE model**, previously our best model, performs the worst on the training data with a score of **0.7687** and second-worst on the test data with a score of **0.6622**
 
 However, since we are prioritizing minimizing false negatives (missed events) over false positives (false alarms), the **SMOTE model** is still the best model.
+
+#### v) Conclusion
+
+The **SMOTE decision tree model** is the **best decision tree model**.
