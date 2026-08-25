@@ -386,7 +386,7 @@ Since we are prioritizing recall, the **SMOTE** model is showing the best perfor
 
 Let us take a look at the confusion matrices for the decision trees:
 
-<img src='./Images/decision_tree_conf_matrices.png'
+<img src='./Images/decision_tree_conf_matrices.png' />
 
 The confusion matrices reveal that:
 
@@ -397,3 +397,13 @@ The confusion matrices reveal that:
 We are prioritizing capturing as many of the fraudulent cases as possible even at the cost of high false alarms. The **SMOTE model** looks like the best model to go with thus far.
 
 Let us look at the **PR-AUC** curves for the models:
+
+<img src='./Images/decision_tree_PR-AUC.png' />
+
+The PR-AUC curves reveal that:
+
+- the **balanced model** is the best model of the three (using either training or testing data) at predicting the positive class with **as few false alarms** as possible with a PR-AUC score of **0.8158** on the training data and a score of **0.6622** on the test data.
+
+- the **SMOTE model**, previously our best model, performs the worst on the training data with a score of **0.7687** and second-worst on the test data with a score of **0.6622**
+
+However, since we are prioritizing minimizing false negatives (missed events) over false positives (false alarms), the **SMOTE model** is still the best model.
