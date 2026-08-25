@@ -411,3 +411,7 @@ However, since we are prioritizing minimizing false negatives (missed events) ov
 #### v) Conclusion
 
 The **SMOTE decision tree model** is the **best decision tree model**.
+
+<h3 align='center'>
+e) Neural Network
+</h3>
