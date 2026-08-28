@@ -415,3 +415,85 @@ The **SMOTE decision tree model** is the **best decision tree model**.
 <h3 align='center'>
 e) Neural Network
 </h3>
+
+#### i) Unbalanced
+
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999647 |   0.9998 | 0.999723 |    84976 |
+| 1            |  0.868217 | 0.788732 | 0.826568 |      142 |
+| accuracy     |  0.999448 | 0.999448 | 0.999448 | 0.999448 |
+| macro avg    |  0.933932 | 0.894266 | 0.913146 |    85118 |
+| weighted avg |  0.999428 | 0.999448 | 0.999435 |    85118 |
+
+#### ii) Balanced
+
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999751 | 0.993363 | 0.996547 |    84976 |
+| 1            |  0.176642 | 0.852113 | 0.292624 |      142 |
+| accuracy     |  0.993127 | 0.993127 | 0.993127 | 0.993127 |
+| macro avg    |  0.588197 | 0.922738 | 0.644585 |    85118 |
+| weighted avg |  0.998378 | 0.993127 | 0.995372 |    85118 |
+
+#### iii) SMOTE
+
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999647 | 0.998929 | 0.999288 |    84976 |
+| 1            |  0.551724 | 0.788732 | 0.649275 |      142 |
+| accuracy     |  0.998578 | 0.998578 | 0.998578 | 0.998578 |
+| macro avg    |  0.775685 | 0.893831 | 0.824282 |    85118 |
+| weighted avg |  0.998899 | 0.998578 | 0.998704 |    85118 |
+
+#### iv) Evaluation
+
+The classification reports reveal the following:
+
+- all of the models perform well on the negative class.
+
+- the **balanced model** has the **highest recall** of **0.8521** and the **lowest precision** of **0.1766** as well as the **lowest f1 score** of **0.2926** on the positive class.
+
+- the **unbalanced model** has the **highest precision** score of **0.8682**, the **highest f1 score** of **0.8266** and **similar recall to the SMOTE model** of **0.7887** on the positive class.
+
+These observations reveal that:
+
+- the unbalanced model records the lowest number of false alarms while capturing a decent amount of the fraudulent events as evidenced by its decent recall.
+
+- the balanced model does the best at capturing the fraudulent events. However, it has an abysmally relatively high number of false alarms. The balanced model is more prone to over-predicting positives.
+
+- the SMOTE model has decent recall but relatively low precision which reveal that it captures a decent amount of the fraudulent events (similar number to the unbalanced model) but with a relatively high number of false alarms (not as high as the balanced model's though).
+
+Let us take a look at the confusion matrices of the models:
+
+<img src='./Images/neural_network_conf_matrices.png' />
+
+The confusion matrices reveal that:
+
+- our previous conclusions were correct: the **balanced model** has the **lowest number of false negatives (21)** which means it is the best at capturing fraudulent events. It also has the highest number of false positives, hence its very low precision score.
+
+- the **unbalanced and SMOTE models** have a similar number of **false negatives and true positives** hence the similar recall they had. The SMOTE model, however, has a higher number of false positives hence its lower precision score compared to the unbalanced model.
+
+Let us now look at the **PR-AUC curves** for the models:
+
+<img src='./Images/neural_network_PR-AUC.png' />
+
+The PR-AUC curves reveal that:
+
+- the **unbalanced model** has the **second highest average precision score** on the **training data** of **0.9483** just behind **SMOTE's**. It also has the **highest average precision score** on the **test data** of **0.8034**. This is a performance drop of around **14%**: not too bad especially when compared with some of the other models.
+
+- the **SMOTE model** has the **highest average precision score** on the **training data** of **0.9615** and the **second highest average precision score** on the **test set** of **0.7381**; a performance drop of around **23%**. This is an indication that the **SMOTE** model might be overfit.
+
+- the **balanced model** has the **worst average precision score** of the three across **both the training and test set** of **0.8204** and **0.7198** respectively. This is a performance drop of around **11%**: the lowest of the three.
+
+#### v) Conclusion
+
+Ultimately, given what the **PR-AUC curves** represent, that is, the ability of the model to predict positives well without raising many false alarms, the poor performance demonstrated by the **balanced model** does not lower its overall ranking in what we should go with as the **best neural network model**.
+
+This is because, as stated previously, we are very much willing to tolerate more false alarms if it means more of the fraudulent events will be captured.
+
+Thus, given this and the fact that the balanced model performs the best (in terms of recall) at the default decision threshold of **0.5** as evidenced by the confusion matrices, the **balanced neural network model** is selected as the **best neural network model** for our purposes.
+
+<h2 align='center'>
+4. Model Evaluation
+</h2>
