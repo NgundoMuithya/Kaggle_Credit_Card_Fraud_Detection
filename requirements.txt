@@ -5,3 +5,7 @@ seaborn
 sklearn
 imblearn
 xgboost
+tensorflow
+scikeras
+keras
+cloudpickle
