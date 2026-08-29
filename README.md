@@ -42,7 +42,7 @@ This downloads the credit card data into your local machine.
 
 ## Instructions to load the best model
 
-The best model is saved as a `sklearn` pipeline using `cloudpickle`. To load it simply run this code:
+The best model is saved as a `sklearn` pipeline using `cloudpickle`. To load it, simply run this code:
 
 ```python
 import cloudpickle as cp
@@ -53,8 +53,32 @@ with open('./best_overall_model.pkl', 'rb') as f:
 print("Model loaded successfully")
 ```
 
-<h2 align='center'>
-1. Data Understanding
+<h2 id='table-of-contents' align='center'>
+1. Table of Contents
+</h2>
+
+1. [Data Understanding](#data-understanding)
+
+2. [Data Visualization](#data-visualization)
+
+3. [Model Building](#model-building)
+
+   a) [Logistic Regression](#logistic-regression)
+
+   b) [XGBoost](#xgboost)
+
+   c) [Random Forest](#random-forest)
+
+   d) [Decision Tree](#decision-tree)
+
+   e) [Neural Network](#neural-network)
+
+4. [Model Evaluation](#model-evaluation)
+
+5. [Conclusions](#conclusions)
+
+<h2 id='data-understanding' align='center'>
+2. Data Understanding
 </h2>
 
 The dataset used ([here](./Data/creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in Spetember 2013.
@@ -69,8 +93,8 @@ Features **V1, V2,..., V28** are the principal components obtained with PCA. The
 
 **Class** is the response variable and it takes value 1 in case of fraud and 0 otherwise.
 
-<h2 align='center'>
-2. Data Visualisation
+<h2 id='data-visualization' align='center'>
+3. Data Visualisation
 </h2>
 
 ### a) Class Imbalance
@@ -105,9 +129,11 @@ Larger gaps become less and less frequent. Those larger gaps indicate periods wh
 
 Fraudulent transactions tend to occur when transactions are happening **infrequently** i.e. the gap between transactions is high compared to genuine transactions. This could be due to any number of reasons.
 
-<h2 align='center'>
-3. Model Building
+<h2 id='model-building' align='center'>
+4. Model Building
 </h2>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
 
 Five model families were built:
 
@@ -127,9 +153,11 @@ Two strategies were employed to deal with the class imbalance present in the dat
 
 Here are the results:
 
-<h3 align='center'>
+<h3 id='logistic-regression' align='center'>
 a) Logistic Regression
 </h3>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
 
 #### i) Unbalanced
 
@@ -199,9 +227,11 @@ The **balanced** model has the highest **average precision score** on the test s
 
 The **balanced logistic model** is the **best logistic model** and it is the model we shall use as our baseline moving forward.
 
-<h3 align='center'>
+<h3 id='xgboost' align='center'>
 b) XGBoost
 </h3>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
 
 #### i) Unbalanced
 
@@ -277,9 +307,11 @@ The PR-AUC curve, taken in isolation, might lead one to conclude that the balanc
 
 The **balanced model** is the **best xgboost model** for our purposes
 
-<h3 align='center'>
+<h3 id='random-forest' align='center'>
 c) Random Forest
 </h3>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
 
 #### i) Unbalanced
 
@@ -351,9 +383,11 @@ All the models perform similarly well at predicting the positive class with as f
 
 The **best random forest model** (for our purposes) is the **SMOTE** model.
 
-<h3 align='center'>
+<h3 id='decision-tree' align='center'>
 d) Decision Tree
 </h3>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
 
 #### i) Unbalanced
 
@@ -425,9 +459,11 @@ However, since we are prioritizing minimizing false negatives (missed events) ov
 
 The **SMOTE decision tree model** is the **best decision tree model**.
 
-<h3 align='center'>
+<h3 id='neural-network' align='center'>
 e) Neural Network
 </h3>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
 
 #### i) Unbalanced
 
@@ -507,6 +543,8 @@ This is because, as stated previously, we are very much willing to tolerate more
 
 Thus, given this and the fact that the balanced model performs the best (in terms of recall) at the default decision threshold of **0.5** as evidenced by the confusion matrices, the **balanced neural network model** is selected as the **best neural network model** for our purposes.
 
-<h2 align='center'>
+<h2 id='model-evaluation' align='center'>
 4. Model Evaluation
 </h2>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
