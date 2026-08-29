@@ -40,6 +40,19 @@ git lfs pull
 
 This downloads the credit card data into your local machine.
 
+## Instructions to load the best model
+
+The best model is saved as a `sklearn` pipeline using `cloudpickle`. To load it simply run this code:
+
+```python
+import cloudpickle as cp
+
+with open('./best_overall_model.pkl', 'rb') as f:
+    best_overall_model = cp.load(f)
+
+print("Model loaded successfully")
+```
+
 <h2 align='center'>
 1. Data Understanding
 </h2>
