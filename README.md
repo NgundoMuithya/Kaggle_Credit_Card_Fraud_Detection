@@ -44,7 +44,7 @@ This downloads the credit card data into your local machine.
 1. Table of Contents
 </h2>
 
-1. [Data Understanding](#data-understanding)
+1. [Data Understanding](#r-data-understanding)
 
 2. [Data Visualization](#data-visualization)
 
@@ -64,7 +64,7 @@ This downloads the credit card data into your local machine.
 
 5. [Conclusions](#conclusions)
 
-<h2 id='data-understanding' align='center'>
+<h2 id='r-data-understanding' align='center'>
 2. Data Understanding
 </h2>
 
