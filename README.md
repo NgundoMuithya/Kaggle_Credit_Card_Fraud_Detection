@@ -44,7 +44,7 @@ This downloads the credit card data into your local machine.
 1. Table of Contents
 </h2>
 
-1. [Data Understanding](#r-data-understanding)
+1. [Data Understanding](#readme-data-understanding)
 
 2. [Data Visualization](#data-visualization)
 
@@ -64,11 +64,11 @@ This downloads the credit card data into your local machine.
 
 5. [Conclusions](#conclusions)
 
-<h2 id='r-data-understanding' align='center'>
+<h2 id='readme-data-understanding' align='center'>
 2. Data Understanding
 </h2>
 
-The dataset used ([here](./Data/creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in Spetember 2013.
+The dataset used ([here](./Data/creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in September 2013.
 
 The dataset is highly imbalanced with the positive class (frauds) accounting for only **0.172%** of the transactions.
 
