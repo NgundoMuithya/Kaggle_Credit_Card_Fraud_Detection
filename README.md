@@ -40,19 +40,6 @@ git lfs pull
 
 This downloads the credit card data into your local machine.
 
-## Instructions to load the best model
-
-The best model is saved as a `sklearn` pipeline using `cloudpickle`. To load it, simply run this code:
-
-```python
-import cloudpickle as cp
-
-with open('./best_overall_model.pkl', 'rb') as f:
-    best_overall_model = cp.load(f)
-
-print("Model loaded successfully")
-```
-
 <h2 id='table-of-contents' align='center'>
 1. Table of Contents
 </h2>
@@ -544,7 +531,120 @@ This is because, as stated previously, we are very much willing to tolerate more
 Thus, given this and the fact that the balanced model performs the best (in terms of recall) at the default decision threshold of **0.5** as evidenced by the confusion matrices, the **balanced neural network model** is selected as the **best neural network model** for our purposes.
 
 <h2 id='model-evaluation' align='center'>
-4. Model Evaluation
+5. Model Evaluation
+</h2>
+
+_Click [here](#table-of-contents) to go back to the table of contents._
+
+In this section, we will evaluate the models we identified as the best models across the 5 model families to find the overall best model.
+
+Let us start by looking at the classification reports for the 5 best models we identified:
+
+### i) Best logistic
+
+|              | precision |   recall |  f1-score |  support |
+| :----------- | --------: | -------: | --------: | -------: |
+| 0            |  0.999945 | 0.858607 |  0.923902 |    84976 |
+| 1            | 0.0113552 | 0.971831 | 0.0224481 |      142 |
+| accuracy     |  0.858796 | 0.858796 |  0.858796 | 0.858796 |
+| macro avg    |   0.50565 | 0.915219 |  0.473175 |    85118 |
+| weighted avg |  0.998296 | 0.858796 |  0.922398 |    85118 |
+
+### ii) Best xgboost
+
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999821 | 0.985867 | 0.992795 |    84976 |
+| 1            | 0.0956325 | 0.894366 | 0.172789 |      142 |
+| accuracy     |  0.985714 | 0.985714 | 0.985714 | 0.985714 |
+| macro avg    |  0.547727 | 0.940116 | 0.582792 |    85118 |
+| weighted avg |  0.998313 | 0.985714 | 0.991427 |    85118 |
+
+### iii) Best random forest
+
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999671 |   0.9998 | 0.999735 |    84976 |
+| 1            |  0.870229 | 0.802817 | 0.835165 |      142 |
+| accuracy     |  0.999471 | 0.999471 | 0.999471 | 0.999471 |
+| macro avg    |   0.93495 | 0.901308 |  0.91745 |    85118 |
+| weighted avg |  0.999455 | 0.999471 | 0.999461 |    85118 |
+
+### iv) Best decision tree
+
+|              | precision |   recall |  f1-score |  support |
+| :----------- | --------: | -------: | --------: | -------: |
+| 0            |  0.999681 | 0.959389 |  0.979121 |    84976 |
+| 1            | 0.0325203 | 0.816901 | 0.0625506 |      142 |
+| accuracy     |  0.959151 | 0.959151 |  0.959151 | 0.959151 |
+| macro avg    |  0.516101 | 0.888145 |  0.520836 |    85118 |
+| weighted avg |  0.998068 | 0.959151 |  0.977591 |    85118 |
+
+### v) Best neural network
+
+|              | precision |   recall | f1-score |  support |
+| :----------- | --------: | -------: | -------: | -------: |
+| 0            |  0.999751 | 0.993363 | 0.996547 |    84976 |
+| 1            |  0.176642 | 0.852113 | 0.292624 |      142 |
+| accuracy     |  0.993127 | 0.993127 | 0.993127 | 0.993127 |
+| macro avg    |  0.588197 | 0.922738 | 0.644585 |    85118 |
+| weighted avg |  0.998378 | 0.993127 | 0.995372 |    85118 |
+
+### vi) Evaluation
+
+The classification reports reveal:
+
+- all the models perform well on the negative class with the random forest performing the best with a f1 score of **0.9997** and the logistic model performing the worst with a f1 score of **0.9239**
+
+- the **best logistic model** has the **highest recall score** of **0.9718** and the **lowest precision and f1 scores** of **0.0113** and **0.0224** respectively on the positive class. This indicates that the logistic model has the **highest number of false positives** and the **lowest number of false negatives** of the 5 models.
+
+- the **best random forest model** has the **highest precision and f1 scores** of **0.8702** and **0.8352** respectively with the **lowest, but still decent, recall score** of **0.8028** on the positive class. This is an indication that it has the **highest number of false negatives** and the **lowest number of false positives** of the 5 models.
+
+- all the models, with the exception of the random forest model, have very poor precision scores. This does not mean much though given we are trying to maximize recall not precision.
+
+Let us take a look at the confusion matrices for the 5 models:
+
+<img src='./Images/best_conf_matrices.png' />
+
+The confusion matrices reveal that:
+
+- the **best logistic model** has the **lowest number of false negatives** missing just **4** of the fraudulent events. In contrast, the **best random forest model** has the **highest** with **28** missed events.
+
+- the **best logistic model** records the **highest number of false positives** of the 5 with **12,015** false alarms. Compare this to the **best xgboost model**'s **17** which is the **lowest**.
+
+Let us look at how the models perform on the positive class at different decision thresholds using the **PR-AUC curves**:
+
+<img src='./Images/best_PR-AUC.png' />
+
+The PR-AUC curves reveal that:
+
+- the **best logistic model** has the **lowest average precision score (PR-AUC score)** when using the **training data** of **0.7094** and the **second lowest PR-AUC score** when using the **test data** of **0.6735**. This is to be expected considering its very low precision score that we saw earlier in the classification reports. It has a performance drop of around **3%** from when using training and testing data indicating that the model might not be overfit.
+
+- the **best random forest model** has the **highest PR-AUC score** across **both the training and test data**; a perfect **1** on the training data and **0.8098** on the test data. This is to be expected given the high precision score we saw from the model earlier. The performance drop of around **20%** is indicative of overfitting.
+
+### vii) Conclusion
+
+The **best logistic model** showcases the **lowest number of false negatives (4)** and the **highest number of true positives (138)** (which naturally leads to it having the highest positive recall of 0.9718) meaning it captures _almost every fraudulent event_.
+
+The **best logistic model** is, however, prone to a **high number of false alarms (12,015)**.
+
+Given that we are willing to tolerate more false alarms if it means we capture _more of the fraudulent events_, and also considering that the logistic model does not do _too_ badly on the negative class, despite it's high number of false positives, with a **negative f1 score** of **0.9239**, the **best logistic model** is the model we will go with as the **best overall model**.
+
+The **best logistic model** has been saved as the **best overall model** in the file `best_overall_model.pkl`.
+
+The best model is saved as a `sklearn` pipeline using `cloudpickle`. To load it, simply run this code:
+
+```python
+import cloudpickle as cp
+
+with open('./best_overall_model.pkl', 'rb') as f:
+    best_overall_model = cp.load(f)
+
+print("Model loaded successfully")
+```
+
+<h2 id='conclusions' align='center'>
+6. Conclusions
 </h2>
 
 _Click [here](#table-of-contents) to go back to the table of contents._
