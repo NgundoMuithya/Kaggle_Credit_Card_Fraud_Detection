@@ -14,7 +14,7 @@ Credit card fraud is a significant and growing threat to the financial industry,
 
 Fraudulent transactions also represent a small fraction of all transactions, resulting in highly imbalanced datasets that make detection a challenging machine learning problem. This project builds a classification pipeline to detect fraudulent credit card transactions, addressing this imbalance through techniques such as SMOTE and tuned ensemble models.
 
-The dataset used ([here](./Data/creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in Spetember 2013.
+The dataset used ([here](./Data/creditcard.csv)) comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and contains transactions made by European cardholders in September 2013.
 
 Five model families were evaluated:
 
@@ -62,7 +62,7 @@ This downloads the credit card data into your local machine.
 
 4. [Model Evaluation](#model-evaluation)
 
-5. [Conclusions](#conclusions)
+5. [Summary and Conclusions](#summary-and-conclusions)
 
 <h2 id='data-understanding' align='center'>
 2. Data Understanding
@@ -94,11 +94,11 @@ Using a logarithmic scale for the y-axis makes the sheer class imbalance the dat
 
 <img src='./Images/Amount_Dist.png' />
 
-Most of the transaction amounts tend to cluster around the mean of **88** with higher amounts, such as 25,000 being very rare.
+Most of the transaction amounts tend to cluster around the mean of **88** (the currency was not specified) with higher amounts, such as 25,000 being very rare.
 
 <img src='./Images/Avg_Amt_Per_Class.png' />
 
-On average, fraudulent transactions tend to be of higher amounts than genuine ones. This is to be expected, as the requests from criminals will almost always be for large sums of money.
+On average, **fraudulent transactions tend to be of higher amounts than genuine ones**. This is to be expected, as the requests from criminals will almost always be for large sums of money.
 
 ### c) Time Distribution
 
@@ -208,7 +208,7 @@ The PR-AUC curves tell us something interesting:
 
 - the model with the highest average precision score across different decision thresholds is the **balanced** model. This means that, across different decision thresholds, the balanced model raises the fewest false alarms
 
-The **balanced** model has the highest **average precision score** on the test set of **0.6735**. This, combined with its high recall, make it the **best** model for our purposes since this means that it captures the **highest number of events** with the **fewest false alarms** of the 3 models evaluated.
+The **balanced** model has the highest **average precision score** on the test set of **0.6735**. This, combined with its high recall, make it the **best** model for our purposes since this means that it captures the **highest number of events** with the **fewest false alarms** across various decision thresholds of the 3 models evaluated.
 
 #### v) Conclusion
 
@@ -643,8 +643,55 @@ with open('./best_overall_model.pkl', 'rb') as f:
 print("Model loaded successfully")
 ```
 
-<h2 id='conclusions' align='center'>
-6. Conclusions
+<h2 id='summary-and-conclusions' align='center'>
+6. Summary and Conclusions
 </h2>
 
 _Click [here](#table-of-contents) to go back to the table of contents._
+
+The dataset used comes from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud). During data analysis and understanding, the following observations were made:
+
+- The dataset is extremely imbalanced. The positive class accounts for only **0.172%** of the cases.
+
+- Most of the transactions cluster around the mean of **88** (the currency was not specified) with higher amounts being seen very rarely. The highest amount was **25,691**.
+
+- Fraudulent transactions tend to be of **higher** amounts than genuine ones.
+
+- Most transactions occured within milliseconds of one another. Fraudulent transactions tended to happen when transaction frequency was **slower** than normal with an average gap between transactions of around **1 second**.
+
+During model building, 3 modelling techniques: **Unbalanced, Balanced and SMOTE** were used across 5 model families to try and find the **best model** for the problem. The following observations were made:
+
+### i) Logistic Regression
+
+The best logistic model was found to be the **balanced logistic model**. It had the highest **recall** meaning it captured the **most fraudulent events**. It also had the best **average precision score** meaning it performed well at capturing the highest number of events with as few false alarms as possible across various decision thresholds.
+
+### ii) XGBoost
+
+The best xgboost model was found to be the **balanced xgboost model**. It had the highest **recall** of the 3 models and, even though it had the lowest **average precision score** across the board, we are willing to tolerate a high number of false alarms (low precision) if it means a high number of captured events (higher recall).
+
+### iii) Random Forest
+
+The best random forest model was found to be the **SMOTE random forest model**. It had the highest **recall** on the test set and a very good **average precision score**.
+
+### iv) Decision Tree
+
+The best decision tree was found to be the **SMOTE decision tree**. It had the best **recall** on the test set. A low **average precision score** was tolerated because it captured th highest number of fraudulent events of the 3 models.
+
+### v) Neural Network
+
+The best neural network model was the **balanced neural network model**. It had the highest **recall** on the test set compared to the other three models. It had the highest number of true positives (captured events) and lowest false negatives (missed events) of the three models. Even though it had the highest number of false positives (false alarms) of the three models, we are willing to tolerate that if it means more captured events.
+
+### Overall Evaluation
+
+Evaluation of the 5 best models from the 5 different model families resulted in the **best logistic model** being selected as the **best overall model**. This is due to its very low number of missed events missing only **4** of the fraudulent events. Even though, it had the highest number of false positives, it posted a great performance on the negative class with a negative f1 score of **0.9239**.
+
+The best logistic model was saved in the file `best_overall_model.pkl`, [here](./best_overall_model.pkl). It can be loaded by running:
+
+```python
+import cloudpickle as cp
+
+with open('./best_overall_model.pkl', 'rb') as f:
+    best_overall_model = cp.load(f)
+
+print("Model loaded successfully.")
+```
