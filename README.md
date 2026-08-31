@@ -64,6 +64,8 @@ This downloads the credit card data into your local machine.
 
 5. [Summary and Conclusions](#summary-and-conclusions)
 
+6. [For More Information](#for-more-information)
+
 <h2 id='data-understanding' align='center'>
 2. Data Understanding
 </h2>
@@ -695,3 +697,9 @@ with open('./best_overall_model.pkl', 'rb') as f:
 
 print("Model loaded successfully.")
 ```
+
+<h2 id='for-more-information' align='center'>
+7. For More Information
+</h2>
+
+For more information, visit the [notebook](./notebook.ipynb).
